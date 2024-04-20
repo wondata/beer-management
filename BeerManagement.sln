@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{18910254-23A8-4161-B83C-64B8113A0FA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{DDDEEBFC-EE90-41DF-BF7C-5639AD9A6FC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D81208FD-D27D-4D37-B86D-EC816E0AA13B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerManagement.Domain", "BeerManagement.Domain\BeerManagement.Domain.csproj", "{2B652CCC-490A-4230-ADED-85B38147A4AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerManagement.Application", "BeerManagement.Application\BeerManagement.Application.csproj", "{76A65682-CB48-4760-B4FA-3D6A30E2A502}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerManagement.Infrastructure", "BeerManagement.Infrastructure\BeerManagement.Infrastructure.csproj", "{7896658C-E62F-4098-86FD-44D254B50FF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerManagement.WebApi", "BeerManagement.WebApi\BeerManagement.WebApi.csproj", "{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B652CCC-490A-4230-ADED-85B38147A4AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B652CCC-490A-4230-ADED-85B38147A4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B652CCC-490A-4230-ADED-85B38147A4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B652CCC-490A-4230-ADED-85B38147A4AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A65682-CB48-4760-B4FA-3D6A30E2A502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A65682-CB48-4760-B4FA-3D6A30E2A502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A65682-CB48-4760-B4FA-3D6A30E2A502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A65682-CB48-4760-B4FA-3D6A30E2A502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7896658C-E62F-4098-86FD-44D254B50FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7896658C-E62F-4098-86FD-44D254B50FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7896658C-E62F-4098-86FD-44D254B50FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7896658C-E62F-4098-86FD-44D254B50FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B652CCC-490A-4230-ADED-85B38147A4AE} = {18910254-23A8-4161-B83C-64B8113A0FA7}
+		{76A65682-CB48-4760-B4FA-3D6A30E2A502} = {18910254-23A8-4161-B83C-64B8113A0FA7}
+		{7896658C-E62F-4098-86FD-44D254B50FF5} = {DDDEEBFC-EE90-41DF-BF7C-5639AD9A6FC2}
+		{52FFF9E0-C3A2-4C1C-AAEA-E2E84916DF64} = {D81208FD-D27D-4D37-B86D-EC816E0AA13B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D32B3D4C-CDAA-44A6-8769-4A27D6E8A73C}
+	EndGlobalSection
+EndGlobal
