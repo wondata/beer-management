@@ -63,7 +63,7 @@ namespace BeerManagement.WebApi.Controllers
         {
             try
             {
-                await _beerService.UpdateRating(rm.Id);
+                await _beerService.UpdateRating(rm.MapToEntity());
 
                 return Ok(new ApiResponse<bool>(true, false, "Beer rating updated successfully."));
             }

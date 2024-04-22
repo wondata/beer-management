@@ -1,26 +1,21 @@
 ﻿using BeerManagement.Application.Entities;
 using BeerManagement.Application.Interfaces;
 using BeerManagement.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeerManagement.Domain.Services
 {
     public class BeerService : IBeerService
     {
-        private readonly IGenericRepository<Beer> _beerRepository;
+        private readonly IRepository _repository;
 
-        public BeerService(IGenericRepository<Beer> beerRepository)
+        public BeerService(IRepository beerRepository)
         {
-            _beerRepository = beerRepository;
+            _repository = beerRepository;
         }
 
         public async Task<IEnumerable<BeerEntity>> GetAllBeers(string? searchParam)
         {
-            var bms = await _beerRepository.GetAllAsync();
+            var bms = await _repository.GetAllAsync<Beer>(b => b.Ratings);
             if (bms != null && !string.IsNullOrWhiteSpace(searchParam))
             {
                 bms = bms.Where(b => b.Name.Contains(searchParam, StringComparison.InvariantCultureIgnoreCase));
@@ -50,35 +45,32 @@ namespace BeerManagement.Domain.Services
             }
 
             var bm = beer.MapToModel();
-            await _beerRepository.AddAsync(bm);
+            bm.EnteredAt = DateTime.Now;
+            await _repository.AddAsync<Beer>(bm);
         }
 
-        public async Task UpdateRating(int id)
+        public async Task UpdateRating(RatingEntity rating)
         {
             //Get Beer
-            var beer = await _beerRepository.GetAsync(b => b.Id == id);
+            var beer = await _repository.GetAsync<Beer>(b => b.Id == rating.BeerId);
             if (beer == null)
             {
                 throw new KeyNotFoundException("Failed to update beer rating: Beer not found");
             }
 
+            //Add new rating
+            var rm = rating.MapToModel();
+            await _repository.AddAsync<Rating>(rm);
+
             //Get beers average rating
-            var beers = await _beerRepository.GetAllAsync();
-            var averageRating = beers?.Average(b => b.Rating) ?? 0;
+            var ratings = await _repository.GetAllAsync<Rating>(r=> r.BeerId == rating.BeerId);
+            var averageRating = ratings?.Average(b => b.Rate) ?? 0;
 
             beer.Rating = (int)Math.Round(averageRating, MidpointRounding.AwayFromZero);
             beer.UpdatedAt = DateTime.Now;
-            await _beerRepository.UpdateAsync(beer);
+            await _repository.UpdateAsync<Beer>(beer);
 
         }
 
-        public void DeleteBeer(Beer entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        
     }
 }

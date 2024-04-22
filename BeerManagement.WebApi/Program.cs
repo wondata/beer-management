@@ -15,7 +15,7 @@ namespace BeerManagement.WebApi
 
             // Add services to the container.
             builder.Services.AddDbContext<BeerDbContext>();
-            builder.Services.AddScoped<IGenericRepository<Beer>, BeerRepository>();
+            builder.Services.AddScoped<IRepository, Repository>();
             builder.Services.AddTransient<IBeerService, BeerService>();
 
             builder.Services.AddControllers();

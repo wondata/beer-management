@@ -13,6 +13,7 @@ namespace BeerManagement.Application.Entities
         public string Name { get; set; }
         public string Type { get; set; }
         public int? Rating { get; set; }
+        public List<RatingEntity> Ratings { get; set; }
 
         public BeerEntity()
         {
@@ -25,6 +26,7 @@ namespace BeerManagement.Application.Entities
             Name = beer.Name;
             Type = beer.Type;
             Rating = beer.Rating;
+            Ratings = beer.Ratings?.Select(r => new RatingEntity(r)).ToList() ?? new List<RatingEntity>();
         }
 
         public Beer MapToModel()

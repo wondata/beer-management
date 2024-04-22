@@ -8,18 +8,16 @@ using System.Threading.Tasks;
 
 namespace BeerManagement.Application.Models
 {
-    public class Beer
+    public class Rating
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public int? Rating { get; set; }
+        public int BeerId { get; set; }
+        public int Rate { get; set; }
         public DateTime EnteredAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
 
-        //One-to-many relationship
-        public ICollection<Rating>? Ratings { get; set; }
+        public Beer Beer { get; set; }
+
     }
 }

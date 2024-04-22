@@ -13,7 +13,6 @@ namespace BeerManagement.Application.Interfaces
         Task<IEnumerable<BeerEntity>> GetAllBeers(string? searchParam);
         List<string> GetBeerTypes();
         Task AddBeer(BeerEntity entity);
-        Task UpdateRating(int id);
-        void DeleteBeer(Beer entity);
+        Task UpdateRating(RatingEntity rating);
     }
 }
