@@ -39,15 +39,25 @@ namespace BeerManagement.Infrastructure.Repositories
             return query;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(Func<T, bool> predicate) where T : class
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties) where T : class
         {
-            var query = (await GetAllAsync<T>()).Where(predicate);
+            IQueryable<T> query = _context.Set<T>();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
             return query;
         }
 
-        public async Task<T?> GetAsync<T>(Func<T, bool> predicate) where T : class
+        public async Task<T?> GetAsync<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties) where T : class
         {
-            var query = (await GetAllAsync<T>()).FirstOrDefault(predicate);
+            var query = (await GetAllAsync<T>(predicate,includeProperties)).FirstOrDefault();
             return query;
         }
 
@@ -81,5 +91,6 @@ namespace BeerManagement.Infrastructure.Repositories
 
             _context.Dispose();
         }
+
     }
 }

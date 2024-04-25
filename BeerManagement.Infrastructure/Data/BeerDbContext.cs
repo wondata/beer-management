@@ -13,6 +13,8 @@ namespace BeerManagement.Infrastructure.Data
         public DbSet<Beer> Beers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
 
+        public DbSet<BeerType> BeerTypes { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase("BeerDatabase");

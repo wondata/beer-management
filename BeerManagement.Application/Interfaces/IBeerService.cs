@@ -11,7 +11,7 @@ namespace BeerManagement.Application.Interfaces
     public interface IBeerService
     {
         Task<IEnumerable<BeerEntity>> GetAllBeers(string? searchParam);
-        List<string> GetBeerTypes();
+        Task<List<string>> GetBeerTypes();
         Task AddBeer(BeerEntity entity);
         Task UpdateRating(RatingEntity rating);
     }

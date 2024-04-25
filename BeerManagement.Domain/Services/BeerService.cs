@@ -1,6 +1,7 @@
 ﻿using BeerManagement.Application.Entities;
 using BeerManagement.Application.Interfaces;
 using BeerManagement.Application.Models;
+using System.Linq;
 
 namespace BeerManagement.Domain.Services
 {
@@ -24,21 +25,32 @@ namespace BeerManagement.Domain.Services
             return beers ?? new List<BeerEntity>();
         }
 
-        public List<string> GetBeerTypes()
+        public async Task<List<string>> GetBeerTypes()
         {
-            var beerTypes = new List<string>
-            {
-                "Pale ale", 
-                "Stout"
-            };
+            var bts = await _repository.GetAllAsync<BeerType>();
 
-            return beerTypes;
+            if(bts.Count() > 0)
+            {
+                return bts.Select(b=>b.Name).ToList();
+            } else
+            {
+                await _repository.AddAsync<BeerType>(new BeerType { Name = "Pale ale" });
+                await _repository.AddAsync<BeerType>(new BeerType { Name = "Stout" });
+                bts = await _repository.GetAllAsync<BeerType>();
+            }
+            //var beerTypes = new List<string>
+            //{
+            //    "Pale ale", 
+            //    "Stout"
+            //};
+
+            return bts?.Select(b=> b.Name).ToList() ?? new List<string>();
         }
 
         public async Task AddBeer(BeerEntity beer)
         {
             //Check for validity of beer type
-            var isValidType = GetBeerTypes().Contains(beer.Type, StringComparer.InvariantCultureIgnoreCase);
+            var isValidType = (await GetBeerTypes()).Contains(beer.Type, StringComparer.InvariantCultureIgnoreCase);
             if(!isValidType)
             {
                 throw new ArgumentException("Invalid Beer type");
@@ -52,7 +64,7 @@ namespace BeerManagement.Domain.Services
         public async Task UpdateRating(RatingEntity rating)
         {
             //Get Beer
-            var beer = await _repository.GetAsync<Beer>(b => b.Id == rating.BeerId);
+            var beer = (await _repository.GetAsync<Beer>(b => b.Id == rating.BeerId, i => i.Ratings));
             if (beer == null)
             {
                 throw new KeyNotFoundException("Failed to update beer rating: Beer not found");
@@ -62,14 +74,10 @@ namespace BeerManagement.Domain.Services
             var rm = rating.MapToModel();
             await _repository.AddAsync<Rating>(rm);
 
-            //Get beers average rating
-            var ratings = await _repository.GetAllAsync<Rating>(r=> r.BeerId == rating.BeerId);
-            var averageRating = ratings?.Average(b => b.Rate) ?? 0;
-
+            var averageRating = beer.Ratings?.Average(r => r?.Rate) ?? 0;
             beer.Rating = (int)Math.Round(averageRating, MidpointRounding.AwayFromZero);
             beer.UpdatedAt = DateTime.Now;
             await _repository.UpdateAsync<Beer>(beer);
-
         }
 
     }
