@@ -17,5 +17,7 @@ namespace BeerManagement.Application.Interfaces
         Task<T?> GetAsync<T>(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties) where T : class;
         Task AddAsync<T>(T entity) where T : class;
         Task UpdateAsync<T>(T model) where T : class;
+
+        Task SaveChanges();
     }
 }

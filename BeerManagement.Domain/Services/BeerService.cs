@@ -72,12 +72,13 @@ namespace BeerManagement.Domain.Services
 
             //Add new rating
             var rm = rating.MapToModel();
-            await _repository.AddAsync<Rating>(rm);
+            beer.Ratings?.Add(rm);
 
             var averageRating = beer.Ratings?.Average(r => r?.Rate) ?? 0;
             beer.Rating = (int)Math.Round(averageRating, MidpointRounding.AwayFromZero);
             beer.UpdatedAt = DateTime.Now;
-            await _repository.UpdateAsync<Beer>(beer);
+
+            await _repository.SaveChanges();
         }
 
     }

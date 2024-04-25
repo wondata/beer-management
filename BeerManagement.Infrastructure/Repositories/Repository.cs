@@ -78,6 +78,11 @@ namespace BeerManagement.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
             Dispose(true);
