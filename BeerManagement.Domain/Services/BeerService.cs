@@ -1,4 +1,5 @@
-﻿using BeerManagement.Application.Entities;
+﻿using AutoMapper;
+using BeerManagement.Application.Entities;
 using BeerManagement.Application.Interfaces;
 using BeerManagement.Application.Models;
 using System.Linq;
@@ -8,10 +9,12 @@ namespace BeerManagement.Domain.Services
     public class BeerService : IBeerService
     {
         private readonly IRepository _repository;
+        private readonly IMapper _mapper;
 
-        public BeerService(IRepository beerRepository)
+        public BeerService(IRepository beerRepository, IMapper mapper)
         {
             _repository = beerRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<BeerEntity>> GetAllBeers(string? searchParam)
@@ -21,8 +24,8 @@ namespace BeerManagement.Domain.Services
             {
                 bms = bms.Where(b => b.Name.Contains(searchParam, StringComparison.InvariantCultureIgnoreCase));
             }
-            var beers = bms?.Select(b => new BeerEntity(b)).ToList();
-            return beers ?? new List<BeerEntity>();
+            var beers = bms?.Select(b => _mapper.Map<BeerEntity>(b)).ToList();
+            return beers ?? [];
         }
 
         public async Task<List<string>> GetBeerTypes()
@@ -38,13 +41,8 @@ namespace BeerManagement.Domain.Services
                 await _repository.AddAsync<BeerType>(new BeerType { Name = "Stout" });
                 bts = await _repository.GetAllAsync<BeerType>();
             }
-            //var beerTypes = new List<string>
-            //{
-            //    "Pale ale", 
-            //    "Stout"
-            //};
 
-            return bts?.Select(b=> b.Name).ToList() ?? new List<string>();
+            return bts?.Select(b=> b.Name).ToList() ?? [];
         }
 
         public async Task AddBeer(BeerEntity beer)
@@ -56,8 +54,7 @@ namespace BeerManagement.Domain.Services
                 throw new ArgumentException("Invalid Beer type");
             }
 
-            var bm = beer.MapToModel();
-            bm.EnteredAt = DateTime.Now;
+            var bm = _mapper.Map<Beer>(beer);
             await _repository.AddAsync<Beer>(bm);
         }
 
@@ -71,7 +68,7 @@ namespace BeerManagement.Domain.Services
             }
 
             //Add new rating
-            var rm = rating.MapToModel();
+            var rm = _mapper.Map<Rating>(rating);
             beer.Ratings?.Add(rm);
 
             var averageRating = beer.Ratings?.Average(r => r?.Rate) ?? 0;

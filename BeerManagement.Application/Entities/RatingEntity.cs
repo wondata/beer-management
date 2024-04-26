@@ -25,16 +25,5 @@ namespace BeerManagement.Application.Entities
             BeerId = rating.BeerId;
             Rate = rating.Rate;
         }
-
-        public Rating MapToModel()
-        {
-            var ratingModel = new Rating
-            {
-                BeerId = BeerId ,
-                Rate = Rate
-            };
-
-            return ratingModel;
-        }
     }
 }

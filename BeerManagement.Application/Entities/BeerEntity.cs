@@ -20,26 +20,6 @@ namespace BeerManagement.Application.Entities
             
         }
 
-        public BeerEntity(Beer beer)
-        {
-            Id = beer.Id;
-            Name = beer.Name;
-            Type = beer.Type;
-            Rating = beer.Rating;
-            Ratings = beer.Ratings?.Select(r => new RatingEntity(r)).ToList() ?? new List<RatingEntity>();
-        }
-
-        public Beer MapToModel()
-        {
-            var beerModel = new Beer
-            {
-                Name = Name,
-                Type = Type,
-                Rating = Rating
-            };
-
-            return beerModel;
-        }
     }
 
     
